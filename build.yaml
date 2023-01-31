@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      image_builder:
+        enabled: true
+
+builders:
+  image_builder:
+    import: "package:image_builder/image_builder.dart"
+    builder_factories: [ "build" ]
+    build_extensions: { "$package$": [ ".gen.dart" ] }
+    auto_apply: dependents
+    build_to: source
