@@ -55,7 +55,6 @@ image_map_gen:
   output: lib/gen/ # Optional (default: lib/gen/)
   map_files:
     - assets/icons.yaml
-    - assets/lottie.yaml
 
 flutter_gen:
   output: lib/gen/ # Optional (default: lib/gen/)

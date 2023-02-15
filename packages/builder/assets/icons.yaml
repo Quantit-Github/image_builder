@@ -1,0 +1,34 @@
+path: assets/icons
+category:
+  - name: about
+    type: label
+    children:
+      - name: model
+        type: size
+        children:
+          - name: p60
+            type: icon
+            size: 60
+            light: about_model_60px_light.svg
+      - name: olly
+        type: size
+        children:
+          - name: p60
+            size: 60
+            type: icon
+            light: about_olly_60px_light.svg
+      - name: siren
+        type: size
+        children:
+          - name: p60
+            size: 60
+            type: icon
+            light: about_siren_60px_light.svg
+  - name: activated
+    type: size
+    children:
+      - name: p20
+        size: 20
+        type: icon
+        light: activated_20px_light.svg
+        dark: activated_20px_dark.svg
