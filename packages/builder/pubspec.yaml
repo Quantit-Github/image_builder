@@ -1,6 +1,7 @@
 name: image_map_builder
 description: A starting point for Dart libraries or applications.
 version: 1.0.0
+publish_to: 'none'
 # repository: https://github.com/my_org/my_repo
 
 environment:
@@ -12,6 +13,9 @@ dependencies:
   crypto: '>=3.0.0 <4.0.0'
   glob: '>=2.0.0 <3.0.0'
   path: '>=1.8.0 <2.0.0'
+  image_map_core:
+    path: ../core
+
 
 dev_dependencies:
   lints: ^2.0.0

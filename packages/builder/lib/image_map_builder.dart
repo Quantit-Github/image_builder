@@ -1,14 +1,12 @@
 import 'dart:io';
 
 import 'package:build/build.dart';
-import 'package:image_map_builder/src/generator.dart';
+import 'package:image_map_core/image_map_core.dart';
 
 Builder build(BuilderOptions options) => ImageGenBuilder();
 
 class ImageGenBuilder extends Builder {
-  final generator = FlutterGenerator(File('pubspec.yaml'));
-  // late final _config = loadPubspecConfigOrNull(generator.pubspecFile);
-  // _FlutterGenBuilderState? _currentState;
+  final generator = FlutterGenerator.fromFile(File('pubspec.yaml'));
 
   @override
   Future<void> build(BuildStep buildStep) async {
@@ -27,9 +25,8 @@ class ImageGenBuilder extends Builder {
   @override
   Map<String, List<String>> get buildExtensions {
     // if (_config == null) return {};
-    // final output = _config!.pubspec.flutterGen.output;
     return {
-      r'$package$': ["lib/gen/icon.map.dart"],
+      r'$package$': generator.config.pubspec.imageMapGen.outputFilePathList,
     };
   }
 

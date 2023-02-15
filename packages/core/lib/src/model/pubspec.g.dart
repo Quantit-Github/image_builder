@@ -9,33 +9,48 @@ part of 'pubspec.dart';
 Pubspec _$PubspecFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['name', 'image_map_gen'],
+    requiredKeys: const ['name', 'image_map_gen', 'flutter_gen'],
   );
   return Pubspec(
     packageName: json['name'] as String,
     imageMapGen:
         ImageMapGen.fromJson(json['image_map_gen'] as Map<String, dynamic>),
+    flutterGen:
+        FlutterGen.fromJson(json['flutter_gen'] as Map<String, dynamic>),
   );
 }
 
 Map<String, dynamic> _$PubspecToJson(Pubspec instance) => <String, dynamic>{
       'name': instance.packageName,
       'image_map_gen': instance.imageMapGen.toJson(),
+      'flutter_gen': instance.flutterGen.toJson(),
     };
 
-ImageMapGen _$ImageMapGenFromJson(Map<String, dynamic> json) {
+FlutterGen _$FlutterGenFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['output', 'map'],
+    requiredKeys: const ['output'],
   );
-  return ImageMapGen(
+  return FlutterGen(
     output: json['output'] as String,
-    map: (json['map'] as List<dynamic>).map((e) => e as String).toList(),
   );
 }
 
-Map<String, dynamic> _$ImageMapGenToJson(ImageMapGen instance) =>
+Map<String, dynamic> _$FlutterGenToJson(FlutterGen instance) =>
     <String, dynamic>{
       'output': instance.output,
-      'map': instance.map,
+    };
+
+Flutter _$FlutterFromJson(Map<String, dynamic> json) {
+  $checkKeys(
+    json,
+    requiredKeys: const ['assets'],
+  );
+  return Flutter(
+    assets: (json['assets'] as List<dynamic>).map((e) => e as String).toList(),
+  );
+}
+
+Map<String, dynamic> _$FlutterToJson(Flutter instance) => <String, dynamic>{
+      'assets': instance.assets,
     };

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:image_map_builder/src/generator.dart';
+import 'package:image_map_core/image_map_core.dart';
 
 void main() {
-  final generator = FlutterGenerator(File('test/pubspec_test.yaml'));
+  final generator = FlutterGenerator.fromFile(File('test/pubspec_test.yaml'));
   generator.build();
 }

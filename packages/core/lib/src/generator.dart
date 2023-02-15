@@ -2,12 +2,16 @@ import 'dart:io';
 import 'package:image_map_core/src/config.dart';
 
 class FlutterGenerator {
-  const FlutterGenerator(this.pubspecFile);
-  final File pubspecFile;
+  const FlutterGenerator({required this.config});
+  final Config config;
+
+  factory FlutterGenerator.fromFile(File pubspecFile) {
+    return FlutterGenerator(config: Config.fromFile(pubspecFile));
+  }
 
   Future<void> build() async {
-    Config config = Config.fromFile(pubspecFile);
-    // stdout.writeln(config.pubspec.toJson().toString());
+    stdout.writeln(config.pubspec.toJson().toString());
+    stdout.writeln(config.pubspec.imageMapGen.outputFilePathList.toString());
     // config ??= loadPubspecConfigOrNull(pubspecFile);
     // if (config == null) return;
 

@@ -1,8 +1,9 @@
 /// Support for doing something awesome.
 ///
-/// More dartdocs go here.
+/// More dart docs go here.
 library image_map_core;
 
-export 'src/image_map_core_base.dart';
+export 'src/generator.dart';
+export 'src/config.dart';
 
 // TODO: Export any libraries intended for clients of this package.
