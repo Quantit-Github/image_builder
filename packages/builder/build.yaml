@@ -1,0 +1,13 @@
+targets:
+  $default:
+    builders:
+      image_map_builder:
+        enabled: true
+
+builders:
+  image_map_builder:
+    import: "package:image_map_builder/image_map_builder.dart"
+    builder_factories: [ "build" ]
+    build_extensions: { "$package$": [ ".map.dart" ]}
+    auto_apply: dependents
+    build_to: source
