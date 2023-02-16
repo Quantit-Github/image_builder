@@ -8,7 +8,8 @@ class Pubspec {
   Pubspec(
       {required this.packageName,
       required this.imageMapGen,
-      required this.flutterGen});
+      required this.flutterGen,
+      required this.flutter});
 
   @JsonKey(name: 'name', required: true)
   final String packageName;
@@ -19,6 +20,9 @@ class Pubspec {
   @JsonKey(name: 'flutter_gen', required: true)
   final FlutterGen flutterGen;
 
+  @JsonKey(name: 'flutter', required: true)
+  final Flutter flutter;
+
   factory Pubspec.fromJson(Map<String, dynamic> json) =>
       _$PubspecFromJson(json);
 
@@ -27,10 +31,13 @@ class Pubspec {
 
 @JsonSerializable(explicitToJson: true)
 class FlutterGen {
-  const FlutterGen({required this.output});
+  const FlutterGen({required this.output, required this.lineLength});
 
-  @JsonKey(name: 'output', required: true)
+  @JsonKey(name: 'output', required: true, defaultValue: "lib/gen/")
   final String output;
+
+  @JsonKey(name: 'line_length', required: true, defaultValue: 80)
+  final int lineLength;
 
   factory FlutterGen.fromJson(Map<String, dynamic> json) =>
       _$FlutterGenFromJson(json);

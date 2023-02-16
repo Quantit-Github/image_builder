@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:dart_style/dart_style.dart';
+import 'package:image_map_core/src/generator/common.dart';
 import 'package:image_map_core/src/model/pubspec.dart';
+import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
 class Config {
@@ -18,6 +21,48 @@ class Config {
       pubspecFile: pubspecFile,
       pubspec: Pubspec.fromJson(pubspecMap),
     );
+  }
+
+  // 에셋에 설정 했는지 체크
+  bool get checkSetAssets {
+    List<String> pathInMapFiles =
+        pubspec.imageMapGen.mapFiles.map((e) => e.path).toList();
+
+    List<String> notContainPath = pathInMapFiles
+        .where((element) => !pubspec.flutter.assets.contains(element))
+        .toList();
+
+    if (notContainPath.isEmpty) {
+      return false;
+    } else {
+      String errorString = """
+  Error:  
+    map yaml 파일에 설정된 path가 assets에 설정 되어 있지 않습니다.
+    확인해주세요.
+  Path List:
+    [ ${notContainPath.join(", ")} ]
+""";
+      stdout.writeln(errorString);
+      return true;
+    }
+  }
+
+  String get flutterGenAssetsFilePath => normalize(
+        join(
+          pubspecFile.parent.path,
+          "${pubspec.flutterGen.output}/assets.gen.dart",
+        ),
+      );
+
+  String get imageGenOutputPath =>
+      normalize(join(pubspecFile.parent.path, pubspec.imageMapGen.output));
+
+  generateAssets(DartFormatter formatter) {
+    final buffer = StringBuffer();
+    buffer.writeln(header);
+    buffer.writeln(ignore);
+
+    return formatter.format(buffer.toString());
   }
 }
 

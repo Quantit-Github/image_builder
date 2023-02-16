@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:image_map_core/src/config.dart';
 import 'package:image_map_core/src/model/image_selector.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:recase/recase.dart';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
@@ -32,11 +33,8 @@ class ImageMapGen {
   List<String> get outputFilePathList =>
       mapFiles.map<String>(packOutputPath).toList();
 
-  String packOutputPath(ImageGenMapFile mapFilePath) {
-    File mapFile = File(mapFilePath.path);
-    String filename = basename(mapFile.path).split(".")[0];
-    return "$output$filename.map.dart";
-  }
+  String packOutputPath(ImageGenMapFile mapFilePath) =>
+      "$output${mapFilePath.fileName}";
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -64,6 +62,8 @@ class ImageGenMapFile {
       _$ImageGenMapFileFromJson(json);
 
   Map<String, dynamic> toJson() => _$ImageGenMapFileToJson(this);
+
+  String get fileName => "${path.snakeCase}.map.dart";
 }
 
 List<ImageSelector> categoryFromJson(List<dynamic> json) => json.map((e) {
