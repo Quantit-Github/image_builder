@@ -1,8 +1,6 @@
 import 'dart:io';
-
-import 'package:dart_style/dart_style.dart';
-import 'package:image_map_core/src/generator/common.dart';
 import 'package:image_map_core/src/model/pubspec.dart';
+import 'package:image_map_core/src/utils.dart';
 import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
@@ -57,12 +55,20 @@ class Config {
   String get imageGenOutputPath =>
       normalize(join(pubspecFile.parent.path, pubspec.imageMapGen.output));
 
-  generateAssets(DartFormatter formatter) {
+  StringBuffer generateStringBuffer() {
     final buffer = StringBuffer();
     buffer.writeln(header);
     buffer.writeln(ignore);
 
-    return formatter.format(buffer.toString());
+    final List<String> imports = [
+      "package:flutter/widgets.dart",
+      "${pubspec.flutterGen.output.replaceAll("lib", "package:${pubspec.packageName}")}assets.gen.dart",
+    ];
+    for (String package in imports) {
+      buffer.writeln(import(package));
+    }
+
+    return buffer;
   }
 }
 

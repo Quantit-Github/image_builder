@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:dart_style/dart_style.dart';
 import 'package:image_map_core/src/config.dart';
 import 'package:image_map_core/src/model/image_selector.dart';
+import 'package:image_map_core/src/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:recase/recase.dart';
-import 'package:path/path.dart';
 import 'package:yaml/yaml.dart';
 
 part 'image_map_gen.g.dart';
@@ -64,6 +65,28 @@ class ImageGenMapFile {
   Map<String, dynamic> toJson() => _$ImageGenMapFileToJson(this);
 
   String get fileName => "${path.snakeCase}.map.dart";
+
+  String get classString => classStringGenerator(
+        path.pascalCase,
+        category
+            .map((c) =>
+                "${c.className("")} get ${c.name.camelCase} => ${c.className("")}();")
+            .join(" "),
+      );
+
+  String get _assetsClassPath {
+    List<String> p = path.split("/");
+    List<String> subPath = p.where((x) => p.indexOf(x) != 0).toList();
+    return "${p[0].pascalCase}().${subPath.map((e) => e.toLowerCase()).join(".")}";
+  }
+
+  String classOutput(DartFormatter formatter, StringBuffer buffer) {
+    buffer.writeln(classString);
+    for (var i = 0; i < category.length; i++) {
+      category[i].classOutput(buffer, "", _assetsClassPath);
+    }
+    return formatter.format(buffer.toString());
+  }
 }
 
 List<ImageSelector> categoryFromJson(List<dynamic> json) => json.map((e) {

@@ -9,10 +9,10 @@ part of 'image_selector.dart';
 LabelSelector _$LabelSelectorFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['name', 'type', 'children'],
+    requiredKeys: const ['type', 'children'],
   );
   return LabelSelector(
-    name: json['name'] as String,
+    name: json['name'] as String? ?? 'image_selector',
     type: $enumDecode(_$ImageSelectorTypeEnumMap, json['type']),
     children: childrenFromJson(json['children'] as List),
   );
@@ -34,10 +34,10 @@ const _$ImageSelectorTypeEnumMap = {
 SizeSelector _$SizeSelectorFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['name', 'type', 'children'],
+    requiredKeys: const ['type', 'children'],
   );
   return SizeSelector(
-    name: json['name'] as String,
+    name: json['name'] as String? ?? 'image_selector',
     type: $enumDecode(_$ImageSelectorTypeEnumMap, json['type']),
     children: childrenFromJson(json['children'] as List),
   );
@@ -53,10 +53,10 @@ Map<String, dynamic> _$SizeSelectorToJson(SizeSelector instance) =>
 IconSelector _$IconSelectorFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['name', 'type', 'size', 'light'],
+    requiredKeys: const ['type', 'size', 'light'],
   );
   return IconSelector(
-    name: json['name'] as String,
+    name: json['name'] as String? ?? 'image_selector',
     type: $enumDecode(_$ImageSelectorTypeEnumMap, json['type']),
     size: json['size'] as int,
     light: json['light'] as String,

@@ -56,7 +56,10 @@ class FlutterGenerator {
       ImageGenMapFile file, DartFormatter formatter, FileWriter writer) {
     final String assetsPath =
         normalize(join(config.imageGenOutputPath, file.fileName));
-    final generated = config.generateAssets(formatter);
+    final generated = file.classOutput(
+      formatter,
+      config.generateStringBuffer(),
+    );
     writer(generated, assetsPath);
     stdout.writeln('Generated: $assetsPath');
   }
