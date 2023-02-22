@@ -61,7 +61,7 @@ class Config {
     buffer.writeln(ignore);
 
     final List<String> imports = [
-      "package:flutter/widgets.dart",
+      // "package:flutter/widgets.dart",
       "${pubspec.flutterGen.output.replaceAll("lib", "package:${pubspec.packageName}")}assets.gen.dart",
     ];
     for (String package in imports) {

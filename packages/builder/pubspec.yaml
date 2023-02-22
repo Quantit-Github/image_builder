@@ -14,7 +14,10 @@ dependencies:
   glob: '>=2.0.0 <3.0.0'
   path: '>=1.8.0 <2.0.0'
   image_map_core:
-    path: ../core
+    git:
+      url: https://github.com/Quantit-Github/image_builder.git
+      ref: main # branch name
+      path: packages/core
 
 dev_dependencies:
   lints: ^2.0.0
