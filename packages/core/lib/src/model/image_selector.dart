@@ -105,14 +105,15 @@ class LabelSelector extends ImageSelector {
         className(parentName),
         children
             .map((c) =>
-                "${c.className(parentName)} get ${c.name} => ${c.className(parentName)}();")
+                "${childClassName(c.className(parentName))} get ${c.name} => ${childClassName(c.className(parentName))}();")
             .join(" "),
       );
 
   @override
-  String className(String parentName) {
-    return '\$${name.pascalCase}LabelMap';
-  }
+  String className(String parentName) => '\$${name.pascalCase}LabelMap';
+
+  String childClassName(String childClassName) =>
+      "\$${name.pascalCase}$childClassName";
 }
 
 @JsonSerializable(explicitToJson: true)
