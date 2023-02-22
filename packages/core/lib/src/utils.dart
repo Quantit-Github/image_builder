@@ -19,8 +19,8 @@ String get ignore => '''
 String import(String package) => 'import \'$package\';';
 
 String classStringGenerator(String className, String content) => '''
-class $className {
-  const $className();
+class \$$className {
+  const \$$className();
 
   $content
 }

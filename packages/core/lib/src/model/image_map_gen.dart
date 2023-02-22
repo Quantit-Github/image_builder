@@ -71,7 +71,7 @@ class ImageGenMapFile {
 class ${path.pascalCase} {
   ${path.pascalCase}._();
 
-  ${category.map((c) => "static const ${c.className("")} ${c.name.camelCase} = ${c.className("")}();").join(" ")}
+  ${category.map((c) => "static const \$${c.classNameString("")} ${c.name.camelCase} = \$${c.classNameString("")}();").join(" ")}
 }
 ''';
   }

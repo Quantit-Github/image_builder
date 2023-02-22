@@ -30,6 +30,8 @@ abstract class ImageSelector {
 
   String classString(String parentName);
   String className(String parentName);
+  String classNameString(String parentName) =>
+      "${className(parentName)}${type.name.pascalCase}Map";
 
   // ignore: unused_element
   void _classOutput(
@@ -95,25 +97,35 @@ class LabelSelector extends ImageSelector {
     String assetsClassPath,
   ) {
     buffer.writeln(classString(parentName));
+    String cn = className(parentName);
     for (var i = 0; i < children.length; i++) {
-      children[i].classOutput(buffer, name, assetsClassPath);
+      children[i].classOutput(buffer, cn, assetsClassPath);
     }
   }
 
-  @override
-  String classString(String parentName) => classStringGenerator(
-        className(parentName),
-        children
-            .map((c) =>
-                "${childClassName(c.className(parentName))} get ${c.name} => ${childClassName(c.className(parentName))}();")
-            .join(" "),
-      );
+  String getParentName(String parentName) =>
+      parentName.isEmpty ? name : parentName;
 
   @override
-  String className(String parentName) => '\$${name.pascalCase}LabelMap';
+  String classString(String parentName) {
+    String pn = getParentName(parentName);
+    return classStringGenerator(
+      classNameString(pn),
+      children
+          .map((c) =>
+              "\$${c.classNameString(pn)} get ${c.name} => \$${c.classNameString(pn)}();")
+          .join(" "),
+    );
+  }
 
-  String childClassName(String childClassName) =>
-      "\$${name.pascalCase}$childClassName";
+  @override
+  String className(String parentName) {
+    if (parentName == name) {
+      return name.pascalCase;
+    } else {
+      return '${parentName.pascalCase}${name.pascalCase}';
+    }
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -142,27 +154,28 @@ class SizeSelector extends ImageSelector {
     String assetsClassPath,
   ) {
     buffer.writeln(classString(parentName));
+    String cn = className(parentName);
     for (var i = 0; i < children.length; i++) {
-      children[i].classOutput(buffer, name, assetsClassPath);
+      children[i].classOutput(buffer, cn, assetsClassPath);
     }
   }
 
   @override
   String classString(String parentName) {
     List<IconSelector> iconSelectors = children.cast<IconSelector>();
+    String cn = className(parentName);
     return classStringGenerator(
-      className(parentName),
+      classNameString(parentName),
       iconSelectors
           .map((c) =>
-              "${childClassName(c.size)} get p${c.size} => ${childClassName(c.size)}();")
+              "\$${c.classNameString(cn)} get p${c.size} => \$${c.classNameString(cn)}();")
           .join(" "),
     );
   }
 
   @override
-  String className(String parentName) => '\$${name.pascalCase}SizeMap';
-
-  String childClassName(int size) => "\$${name.pascalCase}$size";
+  String className(String parentName) =>
+      '${parentName.pascalCase}${name.pascalCase}';
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -217,12 +230,12 @@ class IconSelector extends ImageSelector {
 
   @override
   String classString(String parentName) => classStringGenerator(
-        className(parentName),
+        classNameString(parentName),
         content,
       );
 
   @override
-  String className(String parentName) => '\$${parentName.pascalCase}$size';
+  String className(String parentName) => '${parentName.pascalCase}$size';
 }
 
 List<ImageSelector> childrenFromJson(List<dynamic> json) => json.map((e) {
