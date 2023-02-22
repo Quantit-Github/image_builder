@@ -1,8 +1,9 @@
 /// Support for doing something awesome.
 ///
-/// More dartdocs go here.
-library image_builder;
+/// More dart docs go here.
+library image_map_core;
 
-export 'src/image_builder_base.dart';
+export 'src/generator/index.dart';
+export 'src/config.dart';
 
 // TODO: Export any libraries intended for clients of this package.

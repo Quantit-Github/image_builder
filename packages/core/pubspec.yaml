@@ -1,0 +1,21 @@
+name: image_map_core
+description: Image map core 파트.
+version: 1.0.0
+publish_to: 'none'
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies:
+  yaml: ^3.1.1
+  path: ^1.8.0
+  json_annotation: ^4.8.0
+  recase: ^4.1.0
+  dart_style: ^2.2.4
+
+dev_dependencies:
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.1
+  lints: ^2.0.0
+  test: ^1.21.0
