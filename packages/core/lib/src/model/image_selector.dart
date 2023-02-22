@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:image_map_core/src/utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:recase/recase.dart';
@@ -195,11 +193,26 @@ class IconSelector extends ImageSelector {
     String parentName,
     String assetsClassPath,
   ) {
-    stdout.writeln(assetsClassPath);
-    buffer.writeln(classString(parentName));
+    String classStringBase = classString(parentName);
+    classStringBase =
+        classStringBase.replaceAll("#light", lightString(assetsClassPath));
+    classStringBase =
+        classStringBase.replaceAll("#dark", darkString(assetsClassPath));
+    buffer.writeln(classStringBase);
   }
 
-  String get content => "int get size => $size;";
+  String get content => "int get size => $size; #light #dark";
+
+  String lightString(String assetsClassPath) =>
+      "${light.imageFileType.genImageString} get light => $assetsClassPath.${light.fileName.camelCase};";
+
+  String darkString(String assetsClassPath) {
+    if (dark == null) {
+      return "${light.imageFileType.genImageString} get dark => light;";
+    } else {
+      return "${dark!.imageFileType.genImageString} get dark => $assetsClassPath.${dark!.fileName.camelCase};";
+    }
+  }
 
   @override
   String classString(String parentName) => classStringGenerator(

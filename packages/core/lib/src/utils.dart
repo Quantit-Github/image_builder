@@ -20,11 +20,55 @@ String import(String package) => 'import \'$package\';';
 
 String classStringGenerator(String className, String content) => '''
 class $className {
-  static final $className _instance = $className._internal();
-  factory $className() => _instance;
-  $className._internal() {
-    debugPrint("${className.replaceAll("\$", "\\\$")} Class Created");
-  }
+  const $className();
+
   $content
 }
 ''';
+
+enum ImageFileType {
+  svg,
+  rive,
+  flare,
+  lottie,
+  common,
+}
+
+extension ImageFileTypeExtension on ImageFileType {
+  String get genImageString {
+    switch (this) {
+      case ImageFileType.svg:
+        return "SvgGenImage";
+      case ImageFileType.rive:
+        return "RiveGenImage";
+      case ImageFileType.flare:
+        return "FlareGenImage";
+      case ImageFileType.lottie:
+        return "LottieGenImage";
+      case ImageFileType.common:
+        return "AssetGenImage";
+    }
+  }
+}
+
+extension StringExtension on String {
+  String get capitalize =>
+      "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
+
+  String get fileName => split(".").first;
+
+  ImageFileType get imageFileType {
+    switch (split(".").last) {
+      case "svg":
+        return ImageFileType.svg;
+      case "riv":
+        return ImageFileType.rive;
+      case "flr":
+        return ImageFileType.flare;
+      case "json":
+        return ImageFileType.lottie;
+      default:
+        return ImageFileType.common;
+    }
+  }
+}

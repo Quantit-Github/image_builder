@@ -66,19 +66,17 @@ class ImageGenMapFile {
 
   String get fileName => "${path.snakeCase}.map.dart";
 
-  String get classString => classStringGenerator(
-        path.pascalCase,
-        category
-            .map((c) =>
-                "${c.className("")} get ${c.name.camelCase} => ${c.className("")}();")
-            .join(" "),
-      );
+  String get classString {
+    return '''
+class ${path.pascalCase} {
+  ${path.pascalCase}._();
 
-  String get _assetsClassPath {
-    List<String> p = path.split("/");
-    List<String> subPath = p.where((x) => p.indexOf(x) != 0).toList();
-    return "${p[0].pascalCase}().${subPath.map((e) => e.toLowerCase()).join(".")}";
+  ${category.map((c) => "static const ${c.className("")} ${c.name.camelCase} = ${c.className("")}();").join(" ")}
+}
+''';
   }
+
+  String get _assetsClassPath => path.dotCase.capitalize;
 
   String classOutput(DartFormatter formatter, StringBuffer buffer) {
     buffer.writeln(classString);
